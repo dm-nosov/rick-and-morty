@@ -9,7 +9,7 @@ import {
   getCharactersData,
   getMaxPage,
   getCharacters,
-} from "./components/api/rick-and-morty.js";
+} from "./api/rick-and-morty.js";
 
 const cardContainer = document.querySelector('[data-js="card-container"]');
 const searchBarContainer = document.querySelector(
