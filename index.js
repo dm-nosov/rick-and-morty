@@ -1,21 +1,17 @@
 import { createCharacterCard } from "./components/card/card.js";
 import {
-  updateNavigationPages,
+  updatePagination,
   getCharacterQuery,
+  createPagination,
 } from "./components/nav-pagination/nav-pagination.js";
-updateNavigationPages;
-
 import { createButton } from "./components/nav-button/nav-button.js";
-import { createPagination } from "./components/nav-pagination/nav-pagination.js";
-
 import { createSearchBar } from "./components/search-bar/search-bar.js";
 
 const cardContainer = document.querySelector('[data-js="card-container"]');
 const searchBarContainer = document.querySelector(
   '[data-js="search-bar-container"]'
 );
-const query = document.querySelector('[data-js="query"]');
-const navigation = document.querySelector('[data-js="navigation"]');
+const navigationContainer = document.querySelector('[data-js="navigation"]');
 
 // States
 let maxPage = 1;
@@ -37,9 +33,9 @@ const nextButton = createButton("next", async () => {
 });
 
 const pagination = createPagination(page, maxPage);
-navigation.append(prevButton);
-navigation.append(pagination);
-navigation.append(nextButton);
+navigationContainer.append(prevButton);
+navigationContainer.append(pagination);
+navigationContainer.append(nextButton);
 
 searchBarContainer.append(
   createSearchBar(
@@ -57,7 +53,7 @@ searchBarContainer.append(
 
 const API_BASE = "https://rickandmortyapi.com/api/character";
 
-async function getMaxPage(data) {
+function getMaxPage(data) {
   return data.info.pages;
 }
 
@@ -65,20 +61,16 @@ async function fetchCharacters() {
   const QUERY = getCharacterQuery(page, searchQuery);
   console.log("QUERY", QUERY);
   const data = await (await fetch(API_BASE + QUERY)).json();
-  maxPage = await getMaxPage(data);
+  if (data.hasOwnProperty("error")) {
+    return alert(data.error);
+  }
+  maxPage = getMaxPage(data);
   const charactersData = data.results;
   cardContainer.innerHTML = "";
   charactersData.forEach((item) => {
-    cardContainer.innerHTML += createCharacterCard(
-      item.image,
-      item.name,
-      item.status,
-      item.type,
-      item.episode.length,
-      item.gender
-    );
+    cardContainer.innerHTML += createCharacterCard(item);
   });
-  updateNavigationPages(pagination, page, maxPage);
+  updatePagination(pagination, page, maxPage);
 }
 
 await fetchCharacters();

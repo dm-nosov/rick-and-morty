@@ -1,5 +1,5 @@
-export function updateNavigationPages(navElement, currentPage, maxPages) {
-  navElement.textContent = `${currentPage} / ${maxPages}`;
+export function updatePagination(pagination, currentPage, maxPages) {
+  pagination.textContent = `${currentPage} / ${maxPages}`;
 }
 
 export function getCharacterQuery(page, searchQuery) {
