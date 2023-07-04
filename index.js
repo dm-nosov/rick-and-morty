@@ -43,15 +43,12 @@ navigationContainer.append(pagination);
 navigationContainer.append(nextButton);
 
 searchBarContainer.append(
-  createSearchBar(
-    async (event) => {
-      event.preventDefault();
-      await fetchCharacters();
-    },
-    (event) => {
-      searchQuery = event.target.value;
-    }
-  )
+  createSearchBar(async (event) => {
+    event.preventDefault();
+    const formData = Object.fromEntries(new FormData(event.target));
+    searchQuery = formData.query;
+    await fetchCharacters();
+  })
 );
 
 // Fetch functions

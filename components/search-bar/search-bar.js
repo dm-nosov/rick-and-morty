@@ -1,4 +1,4 @@
-export function createSearchBar(onSubmitCallback, onInputCallback) {
+export function createSearchBar(onSubmitCallback) {
   const searchForm = document.createElement("form");
 
   searchForm.addEventListener("submit", onSubmitCallback);
@@ -7,17 +7,17 @@ export function createSearchBar(onSubmitCallback, onInputCallback) {
 
   const searchInput = document.createElement("input");
 
-  searchInput.addEventListener("input", onInputCallback);
-
   searchInput.classList = "search-bar__input";
   searchInput.setAttribute("placeholder", "search characters");
   searchInput.setAttribute("aria-label", "character name");
   searchInput.type = "text";
+  searchInput.name = "query";
   searchForm.append(searchInput);
 
   const submit = document.createElement("button");
   submit.classList = "search-bar__button";
   submit.setAttribute("aria-label", "search for character");
+  submit.type = "submit";
 
   const submitImg = document.createElement("img");
   submitImg.classList = "search-bar__icon";
