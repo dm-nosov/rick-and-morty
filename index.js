@@ -37,7 +37,7 @@ const nextButton = createButton("next", async () => {
   }
 });
 
-const pagination = createPagination(page, maxPage);
+const pagination = createPagination(maxPage);
 navigationContainer.append(prevButton);
 navigationContainer.append(pagination);
 navigationContainer.append(nextButton);
