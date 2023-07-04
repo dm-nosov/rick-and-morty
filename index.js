@@ -1,15 +1,8 @@
+import * as nav from "./components/nav-pagination/nav-pagination.js";
+import * as api from "./api/rick-and-morty.js";
 import { createCharacterCard } from "./components/card/card.js";
-import {
-  updatePagination,
-  createPagination,
-} from "./components/nav-pagination/nav-pagination.js";
 import { createButton } from "./components/nav-button/nav-button.js";
 import { createSearchBar } from "./components/search-bar/search-bar.js";
-import {
-  getCharactersData,
-  getMaxPage,
-  getCharacters,
-} from "./api/rick-and-morty.js";
 
 const cardContainer = document.querySelector('[data-js="card-container"]');
 const searchBarContainer = document.querySelector(
@@ -37,7 +30,7 @@ const nextButton = createButton("next", async () => {
   }
 });
 
-const pagination = createPagination(maxPage);
+const pagination = nav.createPagination(maxPage);
 navigationContainer.append(prevButton);
 navigationContainer.append(pagination);
 navigationContainer.append(nextButton);
@@ -53,18 +46,18 @@ searchBarContainer.append(
 // Fetch functions
 
 async function fetchCharacters() {
-  const data = await getCharactersData(page, searchQuery);
+  const data = await api.getCharactersData(page, searchQuery);
   if (data.hasOwnProperty("error")) {
     return alert(data.error);
   }
-  maxPage = getMaxPage(data);
-  const characters = getCharacters(data);
+  maxPage = api.getMaxPage(data);
+  const characters = api.getCharacters(data);
 
   cardContainer.innerHTML = "";
   characters.forEach((item) => {
     cardContainer.innerHTML += createCharacterCard(item);
   });
-  updatePagination(pagination, page, maxPage);
+  nav.updatePagination(pagination, page, maxPage);
 }
 
 await fetchCharacters();
