@@ -5,6 +5,9 @@ import {
 } from "./components/nav-pagination/nav-pagination.js";
 updateNavigationPages;
 
+import { createButton } from "./components/nav-button/nav-button.js";
+import { createPagination } from "./components/nav-pagination/nav-pagination.js";
+
 const cardContainer = document.querySelector('[data-js="card-container"]');
 const searchBarContainer = document.querySelector(
   '[data-js="search-bar-container"]'
@@ -12,13 +15,36 @@ const searchBarContainer = document.querySelector(
 const searchBar = document.querySelector('[data-js="search-bar"]');
 const query = document.querySelector('[data-js="query"]');
 const navigation = document.querySelector('[data-js="navigation"]');
-const prevButton = document.querySelector('[data-js="button-prev"]');
-const nextButton = document.querySelector('[data-js="button-next"]');
 
 // States
 let maxPage = 1;
 let page = 1;
 let searchQuery = "";
+
+const prevButton = createButton("previous", async () => {
+  if (page > 1) {
+    page--;
+    await fetchCharacters();
+  }
+});
+
+const nextButton = createButton("next", async () => {
+  if (page < maxPage) {
+    page++;
+    await fetchCharacters();
+  }
+});
+
+const pagination = createPagination(page, maxPage);
+navigation.append(prevButton);
+navigation.append(pagination);
+navigation.append(nextButton);
+
+searchBar.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  searchQuery = query.value;
+  await fetchCharacters();
+});
 
 // Fetch functions
 
@@ -45,27 +71,7 @@ async function fetchCharacters() {
       item.gender
     );
   });
-  updateNavigationPages(page, maxPage);
+  updateNavigationPages(pagination, page, maxPage);
 }
 
 await fetchCharacters();
-
-prevButton.addEventListener("click", async () => {
-  if (page > 1) {
-    page--;
-    await fetchCharacters();
-  }
-});
-
-nextButton.addEventListener("click", async () => {
-  if (page < maxPage) {
-    page++;
-    await fetchCharacters();
-  }
-});
-
-searchBar.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  searchQuery = query.value;
-  await fetchCharacters();
-});
