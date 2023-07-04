@@ -8,11 +8,12 @@ updateNavigationPages;
 import { createButton } from "./components/nav-button/nav-button.js";
 import { createPagination } from "./components/nav-pagination/nav-pagination.js";
 
+import { createSearchBar } from "./components/search-bar/search-bar.js";
+
 const cardContainer = document.querySelector('[data-js="card-container"]');
 const searchBarContainer = document.querySelector(
   '[data-js="search-bar-container"]'
 );
-const searchBar = document.querySelector('[data-js="search-bar"]');
 const query = document.querySelector('[data-js="query"]');
 const navigation = document.querySelector('[data-js="navigation"]');
 
@@ -40,11 +41,17 @@ navigation.append(prevButton);
 navigation.append(pagination);
 navigation.append(nextButton);
 
-searchBar.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  searchQuery = query.value;
-  await fetchCharacters();
-});
+searchBarContainer.append(
+  createSearchBar(
+    async (event) => {
+      event.preventDefault();
+      await fetchCharacters();
+    },
+    (event) => {
+      searchQuery = event.target.value;
+    }
+  )
+);
 
 // Fetch functions
 
