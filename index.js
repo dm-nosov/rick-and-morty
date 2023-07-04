@@ -39,6 +39,7 @@ searchBarContainer.append(
   createSearchBar(async (event) => {
     event.preventDefault();
     searchQuery = event.target.query.value;
+    page = 1;
     await fetchCharacters();
   })
 );
