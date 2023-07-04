@@ -1,11 +1,10 @@
-export function createCharacterCard(
-  image,
-  name,
-  status,
-  type,
-  occurences,
-  gender
-) {
+export function createCharacterCard(item) {
+  const image = item.image;
+  const name = item.name;
+  const status = item.status;
+  const type = item.type;
+  const occurences = item.episode.length;
+
   const cardHTML = `<li class="card">
     <div class="card__image-container">
       <img
