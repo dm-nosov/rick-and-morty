@@ -22,6 +22,7 @@ let maxPage = 1;
 let page = 1;
 let searchQuery = "";
 
+// Create navigation elements
 const prevButton = createButton("previous", async () => {
   if (page > 1) {
     page--;
