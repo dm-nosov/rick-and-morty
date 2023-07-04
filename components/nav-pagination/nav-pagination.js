@@ -4,6 +4,6 @@ export function updateNavigationPages(currentPage, maxPages) {
   pagination.textContent = `${currentPage} / ${maxPages}`;
 }
 
-export function updateCharacterPage(apiUrl, newPage) {
-  return `${apiUrl}${newPage}`;
+export function getCharacterQuery(page, searchQuery) {
+  return `?page=${page}&name=${searchQuery}`;
 }
